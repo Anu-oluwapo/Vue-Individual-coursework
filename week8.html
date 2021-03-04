@@ -30,8 +30,8 @@
 <header></header>
     <h1 class="text-center" v-text="sitename" style="margin-bottom: 5%;"></h1>
 
-    <a style="float: right;" href="#" class="btn btn-primary"  hidden>{{cartItemCount}} <span class="fas fa-cart-plus"></span> Cart</a>
-    <a style="float: right;" href="#" class="btn btn-primary" >{{cartItemCount}} <span class="fas fa-cart-plus"></span> Cart</a>
+    <a style="float: right;" href="#" class="btn btn-primary" v-if='cartItemCount === "" '  hidden>Cart</a>
+    <a style="float: right;" href="#" class="btn btn-primary" v-else >{{cartItemCount}} <span class="fas fa-cart-plus"></span> Cart</a>
     <br><br><br>
 
     <!-- <a style="float: right;" href="#" class="btn btn-primary" v-on:click ='showCheckout'>{{cartItemCount}} <span class="fas fa-cart-plus"></span> Cart</a> -->
