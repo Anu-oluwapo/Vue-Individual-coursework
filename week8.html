@@ -7,12 +7,13 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
     <script src="https://kit.fontawesome.com/7080cd0a09.js" crossorigin="anonymous"></script>
-    <script src="projucts.js" ></script>
+    <script src="lessons.js" ></script>
 
 
     <style>
         aside {
-          width: 10%;
+          width: 15%;
+          height: 948px;
           padding-left: 15px;
           padding-bottom: 15px;
           padding-top: 15px;
@@ -35,46 +36,49 @@
     <div v-if='showProd'>
 
         <aside>
-            <p><b>Sort</b></p>
-  <input type="radio" id="male" name="gender" value="male">
-  <label for="male">Male</label><br>
-  <input type="radio" id="female" name="gender" value="female">
-  <label for="female">Female</label><br>
-  <input type="radio" id="other" name="gender" value="other">
-  <label for="other">Other</label>
+            <p><b>Sort by</b></p>
+  <input type="radio" id="subject" name="sort" value="subject">
+  <label for="subject">Subject</label><br>
 
-  <br>  
+  <input type="radio" id="location" name="sort" value="location">
+  <label for="location">Location</label><br>
 
-  <p>Please select your age:</p>
-  <input type="radio" id="age1" name="age" value="30">
-  <label for="age1">0 - 30</label><br>
-  <input type="radio" id="age2" name="age" value="60">
-  <label for="age2">31 - 60</label><br>  
-  <input type="radio" id="age3" name="age" value="100">
-  <label for="age3">61 - 100</label><br><br>
-  <input type="submit" value="Submit">
+  <input type="radio" id="price" name="sort" value="price">
+  <label for="price">Price</label><br>
+
+  <input type="radio" id="availability" name="sort" value="availability">
+  <label for="price">Availability</label>
+
+  <br>  <br><br>
+
+  <p><b>Sort Order</b></p>
+  <input type="radio" id="ascending" name="sort_order" value="ascending">
+  <label for="ascending">Ascending</label><br>
+  <input type="radio" id="descending" name="sort_order" value="descending">
+  <label for="descending">Descending</label><br>  
+  
             
         </aside>
 
         <div class="row" >
-            <div v-for="product in products" class="col-md-4 mb-5">
+            <div v-for="lessons in lesson" class="col-md-4 mb-5">
             <div class="card " style="width: 18rem;border-bottom-width: 5px; border-bottom-color:#0188cc;">
-                <img v-bind:src="product.image">
+                <img v-bind:src="lessons.image">
                 <div class="card-body">
-                <h5 class="card-title" v-text = "product.title"></h5>
-                <p class="card-text" v-html="product.decsription"></p>
-                <p> <b>Price : ${{product.price}}</b></p>
-                <p v-if="product.availableInventory === cartCount(product.id) "> Out of Stock</p>
-                <p class="text-danger" v-else-if="product.availableInventory - cartCount(product.id) < 5"> Limited stock Only {{product.availableInventory - cartCount(product.id)}} left!</p>
-                <p class="text-success" v-else> In Stock</p>
+                <h5 class="card-title" v-text = "">Subject : {{lessons.subject}}</h5>
+                <p class="card-text" v-html=""> Location : {{lessons.location}} </p>
+                <p> <b>Price : ${{lessons.price}}</b></p>
+                <p v-if="lessons.availablespace === cartCount(lessons.id) "> Completely Booked</p>
+                <!-- <p class="text-danger" v-else-if="lessons.availablespace - cartCount(lessons.id) < 5"> Limited stock Only {{lessons.availablespace - cartCount(lessons.id)}} left!</p> -->
+                <p class="text-success" v-else>Available Spaces : {{lessons.availablespace - cartCount(lessons.id)}}</p>
 
-                <button style="float: right;" href="#" class="btn btn-primary" v-on:click ='addToCart(product)' v-if='canAddToCart(product)' >Add To Cart</button>
+                <button style="float: right;" href="#" class="btn btn-primary" v-on:click ='addToCart(lessons)' v-if='canAddToCart(lessons)' >Add To Cart</button>
                 <button disabled="disabled" style="float: right;" href="#" class="btn btn-primary" v-else >Add To Cart</button>
                     <br>
                 <div>
                     <p>
-                    <span v-for="n in product.rating">★</span>
-                    <span v-for="n in 5 - product.rating">☆</span>
+                    <span v-for="n in lessons.rating">★</span>
+                    <span v-for="n in 5 - lessons.rating">☆</span>
                 </p>
                 </div>
             </div>
@@ -140,7 +144,7 @@
             el: "#app",
             data:{
                 showProd: true,
-                sitename: 'The Pet Food Depot',
+                sitename: 'Lesson Booking',
 
                 order: {
                     firstName: '',
@@ -164,7 +168,7 @@
                     NV: 'Nevada',
                 },
             
-                products: productArray,
+                lesson: lessons,
 
                cart: []
 
@@ -172,9 +176,9 @@
 
             methods:{
                 
-                addToCart: function(product) {
+                addToCart: function(lessons) {
                     console.log('testing');
-                    this.cart.push(product.id);
+                    this.cart.push(lessons.id);
                 },
 
                 showCheckout: function(){
@@ -186,8 +190,8 @@
                     alert('your order has been submitted');
                 },
 
-                canAddToCart: function(product){
-                    return product.availableInventory > this.cartCount(product.id);
+                canAddToCart: function(lessons){
+                    return lessons.availablespace > this.cartCount(lessons.id);
                 },
 
                 cartCount(id) {
@@ -203,7 +207,7 @@
             },
 
             computed: {
-                    cartItemCount: function(product){
+                    cartItemCount: function(lessons){
                         return this.cart.length || '';
                     },
 
