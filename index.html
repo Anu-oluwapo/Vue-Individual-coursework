@@ -78,7 +78,7 @@
                 <p> <b>Price : ${{lessons.price}}</b></p>
                 <p v-if="lessons.availablespace === cartCount(lessons.id) "> Completely Booked</p>
                 <!-- <p class="text-danger" v-else-if="lessons.availablespace - cartCount(lessons.id) < 5"> Limited stock Only {{lessons.availablespace - cartCount(lessons.id)}} left!</p> -->
-                <p class="text-success" v-else>Available Spaces : {{lessons.availablespace - cartCount(lessons.id)}}</p>
+                <p class="text-success" v-else>Available Spaces : {{lessons.availablespace - cartCount(lessons)}}</p>
 
                 <button style="float: right;" href="#" class="btn btn-primary" v-on:click ='addToCart(lessons)' v-if='canAddToCart(lessons)' >Add To Cart</button>
                 <button disabled="disabled" style="float: right;" href="#" class="btn btn-primary" v-else >Add To Cart</button>
@@ -116,9 +116,9 @@
                 <h5 class="card-title" >Subject : {{lessons.subject}}</h5>
                 <p class="card-text" > Location : {{lessons.location}} </p>
                 <p> <b>Price : ${{lessons.price}}</b></p>
-                <p class="text-success">Available Spaces : {{lessons.availablespace - cartCount(lessons.id)}}</p>
+                <!-- <p class="text-success">Available Spaces : {{lessons.availablespace - cartCount(lessons.id)}}</p> -->
 
-                <button style="float: right;" href="#" class="btn btn-primary" v-on:click ='addToCart(lessons)' >Remove from Cart</button>
+                <button style="float: right;" href="#" class="btn btn-primary" v-on:click ='deleteFromCart(lessons)' >Remove from Cart</button>
                 
                     <br>
                 <div>
@@ -180,8 +180,12 @@
             methods:{
                 
                 addToCart: function(lessons) {
-                    console.log('testing');
+                    
                     this.cart.push(lessons);
+                },
+
+                deleteFromCart: function(cart) {
+                   this.cart.splice(cart, 1);
                 },
 
                 showCheckout: function(){
@@ -194,7 +198,7 @@
                 },
 
                 canAddToCart: function(lessons){
-                    return lessons.availablespace > this.cartCount(lessons.id);
+                    return lessons.availablespace > this.cartCount(lessons);
                 },
 
                 cartCount(id) {
