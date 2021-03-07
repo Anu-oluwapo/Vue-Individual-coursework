@@ -41,36 +41,37 @@
 
         <aside>
             <p><b>Sort by</b></p>
-  <input type="radio" id="subject" name="sort" value="subject">
+  <input type="radio" id="subject"  v-model="sort.sortingMethod" value="subject">
   <label for="subject">Subject</label><br>
 
-  <input type="radio" id="location" name="sort" value="location">
+  <input type="radio" id="location"  v-model="sort.sortingMethod" value="location">
   <label for="location">Location</label><br>
 
-  <input type="radio" id="price" name="sort" value="price">
+  <input type="radio" id="price"  v-model="sort.sortingMethod" value="price">
   <label for="price">Price</label><br>
 
-  <input type="radio" id="availability" name="sort" value="availability">
+  <input type="radio" id="availability"  v-model="sort.sortingMethod" value="availablespace">
   <label for="price">Availability</label>
 
   <br>  <br><br>
 
   <p><b>Sort Order</b></p>
-  <input type="radio" id="ascending" name="sort_order" value="ascending">
+  <input type="radio" id="ascending" name="sort_order" v-model="sort.sortingOrder" value="ascending">
   <label for="ascending">Ascending</label><br>
-  <input type="radio" id="descending" name="sort_order" value="descending">
+  <input type="radio" id="descending" name="sort_order" v-model="sort.sortingOrder" value="descending">
   <label for="descending">Descending</label><br>  
   
             
         </aside>
 
         <div class="row" >
-            <div v-for="lessons in sortedLessons" class="col-md-4 mb-5">
+            
+            <div  v-for="lessons in sortedLessons" class="col-md-4 mb-5">
             <div class="card " style="width: 18rem;border-bottom-width: 5px; border-bottom-color:#0188cc;">
                 <img height="200" v-bind:src="lessons.image">
                 <div class="card-body">
-                <h5 class="card-title" v-text = "">Subject : {{lessons.subject}}</h5>
-                <p class="card-text" v-html=""> Location : {{lessons.location}} </p>
+                <h5 class="card-title" >Subject : {{lessons.subject}}</h5>
+                <p class="card-text" > Location : {{lessons.location}} </p>
                 <p> <b>Price : ${{lessons.price}}</b></p>
                 <p v-if="lessons.availablespace === cartCount(lessons.id) "> Completely Booked</p>
                 <!-- <p class="text-danger" v-else-if="lessons.availablespace - cartCount(lessons.id) < 5"> Limited stock Only {{lessons.availablespace - cartCount(lessons.id)}} left!</p> -->
@@ -88,12 +89,10 @@
             </div>
             </div>
         </div>
-        </div>
-    </div>
-
-    
 
     </div>
+    </div>
+</div>
 
     <script>
         var vm = new Vue ({
@@ -101,6 +100,11 @@
             data:{
                 showProd: true,
                 sitename: 'Lesson Booking',
+
+                sort: {
+                    sortingMethod: "location",
+                    sortingOrder: "ascending",
+                },
 
                 order: {
                     firstName: '',
@@ -111,8 +115,6 @@
                     state: '',
                     method: 'Home',
                     
-                    sendGift: "sending as gift",
-                    dontSendGift: "Not sending as gift",
 
                     
                 },
@@ -126,7 +128,7 @@
             
                 lesson: lessonsArray,
 
-               cart: []
+               cart: [],
 
             },
 
@@ -160,25 +162,138 @@
                     return count;
                 },
 
+                
+
+                
+
+               
+
             },
 
             computed: {
                     cartItemCount: function(lessons){
                         return this.cart.length || '';
                     },
-                    sortedLessons(){
+
+                    sortedLessons(lessons, sort){
                     //the comparison that defines the order
+
+                    if(this.sort.sortingMethod == "location" && this.sort.sortingOrder === "ascending" ){
+                    function compare (a, b){
+                        if (a.location > b.location) return 1;
+                        if (a.location < b.location) return -1;
+                        return 0;
+                    }
+                    
+                }else if(this.sort.sortingMethod == "location" && this.sort.sortingOrder === "descending" ){
+                    function compare (a, b){
+                        if (a.location < b.location) return 1;
+                        if (a.location > b.location) return -1;
+                        return 0;
+                    }
+                }else if(this.sort.sortingMethod === "price" && this.sort.sortingOrder === "ascending" ){
                     function compare (a, b){
                         if (a.price > b.price) return 1;
                         if (a.price < b.price) return -1;
                         return 0;
                     }
+                }else if(this.sort.sortingMethod === "price" && this.sort.sortingOrder === "descending" ){
+                    function compare (a, b){
+                        if (a.price < b.price) return 1;
+                        if (a.price > b.price) return -1;
+                        return 0;
+                    }
+                }else if(this.sort.sortingMethod == "subject" && this.sort.sortingOrder === "ascending" ){
+                    function compare (a, b){
+                        if (a.subject > b.subject) return 1;
+                        if (a.subject < b.subject) return -1;
+                        return 0;
+                    }
+                }else if(this.sort.sortingMethod == "subject" && this.sort.sortingOrder === "descending" ){
+                    function compare (a, b){
+                        if (a.subject < b.subject) return 1;
+                        if (a.subject > b.subject) return -1;
+                        return 0;
+                    }
+                }else if(this.sort.sortingMethod == "availablespace" && this.sort.sortingOrder === "ascending" ){
+                    function compare (a, b){
+                        if (a.availablespace > b.availablespace) return 1;
+                        if (a.availablespace < b.availablespace) return -1;
+                        return 0;
+                    }
+                }else if(this.sort.sortingMethod == "availablespace" && this.sort.sortingOrder === "descending" ){
+                    function compare (a, b){
+                        if (a.availablespace < b.availablespace) return 1;
+                        if (a.availablespace > b.availablespace) return -1;
+                        return 0;
+                    }
+                }
                     //sort 'productArray' array and return it
                     return this.lesson.sort(compare);
-                }
+
+                },
+
+                    
+                
+                    
+                //     sortedLessons(lessons){
+                //     //the comparison that defines the order
+
+                //     function compare (a, b){
+                //         if (a.price > b.price) return 1;
+                //         if (a.price < b.price) return -1;
+                //         return 0;
+                //     }
+                //     //sort 'productArray' array and return it
+                //     return this.lesson.sort(compare);
+                // },
+
+                // sortedLessons2(lessons){
+                //     //the comparison that defines the order
+
+                //     function compare (a, b){
+                //         if (a.location > b.location) return 1;
+                //         if (a.location < b.location) return -1;
+                //         return 0;
+                //     }
+                //     //sort 'productArray' array and return it
+                //     return this.lesson.sort(compare);
+                // },
+
+
+                // sortedLessons4(lessons){
+                //     //the comparison that defines the order
+
+                //     function compare (a, b){
+                //         if (a.subject > b.subject) return 1;
+                //         if (a.subject < b.subject) return -1;
+                //         return 0;
+                //     }
+                //     //sort 'productArray' array and return it
+                //     return this.lesson.sort(compare);
+                // },
+
+
+                // sortedLessons3(lessons){
+                //     //the comparison that defines the order
+
+                //     function compare (a, b){
+                //         if (a.availablespace > b.availablespace) return 1;
+                //         if (a.availablespace < b.availablespace) return -1;
+                //         return 0;
+                //     }
+                //     //sort 'productArray' array and return it
+                //     return this.lesson.sort(compare);
+                // },
 
                     
                 },
+
+
+                
+
+                    
+                
 
                 
 
