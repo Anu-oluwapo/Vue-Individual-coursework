@@ -133,10 +133,13 @@
         <h2>Checkout</h2>
         <br>
         <form>
+            
             <input class="form-control" style="width: 60%;" type="text" v-model="user.name" placeholder="Enter Your Name" required ><br>
             <input class="form-control" style="width: 60%;" type="number" v-model="user.number" placeholder="Enter Your Phone Number" required><br>
 
-            <input style="margin-bottom: 50px;" @click="submitForm(user)" v-if="user.name == '' || user.number == '' " class="btn btn-primary" type="submit" value="Place Order" hidden>
+            <p v-if="user.name.includes( 0 || 1 || 2 || 3 || 4 || 5 || 6 || 7 || 8 || 9 ) " class="bg-danger"> Please input a valid name</p>
+            <input style="margin-bottom: 50px;" @click="submitForm(user)" v-else-if="user.name.includes( 0 || 1 || 2 || 3 || 4 || 5 || 6 || 7 || 8 || 9 ) " class="btn btn-primary" type="submit" value="Place Order" hidden>
+            <input style="margin-bottom: 50px;" @click="submitForm(user)" v-else-if="user.name == '' || user.number == '' " class="btn btn-primary" type="submit" value="Place Order" hidden>
             <input style="margin-bottom: 50px;" @click="submitForm(user)" v-else class="btn btn-primary" type="submit" value="Place Order">
         </form>
         </center>
@@ -207,7 +210,11 @@
                 },
 
                 submitForm(user) {
+                    if (user.name.includes( 0 || 1 || 2 || 3 || 4 || 5 || 6 || 7 || 8 || 9)){
+                        alert('Please Input a valid name');
+                    }else{
                     alert('Cheers '+ user.name + ' ,your order has been successfully submitted');
+                }
                 },
 
                 canAddToCart: function(lessons){
