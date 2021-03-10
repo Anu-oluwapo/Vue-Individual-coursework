@@ -139,7 +139,7 @@
 
             <input style="margin-bottom: 50px;" @click="submitForm(user)" v-if="user.name == '' || user.number == '' " class="btn btn-primary" type="submit" value="Place Order" hidden>
 
-            <p v-else-if="user.name.includes(0 || 1 || 2 || 3 || 4 || 5 || 6 || 7 || 8 || 9) " class="bg-danger"> Please input a valid name</p>
+            <p v-else-if="user.name == parseInt(user.name) " class="bg-danger"> Please input a valid name</p>
             
             
             <input style="margin-bottom: 50px;" @click="submitForm(user)" v-else class="btn btn-primary" type="submit" value="Place Order"> 
