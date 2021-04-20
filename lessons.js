@@ -90,7 +90,7 @@ let lessonsArray = [
     
     {
         id: 9,
-        subject: "Business Management",
+        subject: "Business",
         location: "Manchester" ,
         price : 310,
         image: "https://vermontrepublic.org/wp-content/uploads/2019/01/Business-Management-Facts-1.jpg",
@@ -101,7 +101,7 @@ let lessonsArray = [
     
     {
         id: 10,
-        subject: "Information Technology",
+        subject: "Info-Technology",
         location: "Brighton" ,
         price : 525,
         image: "https://media-exp1.licdn.com/dms/image/C511BAQE0cVYmg8QN0g/company-background_10000/0/1581481407499?e=2159024400&v=beta&t=tp4fzua9GkgJLUYXf0JEMnIBFCM-wlKKDnIuiqfnJbc",
